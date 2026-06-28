@@ -1,0 +1,28 @@
+# dependencies
+node_modules/
+
+# next
+.next/
+out/
+
+# build
+dist/
+build/
+
+# env
+.env
+.env.local
+
+# logs
+*.log
+
+# package manager
+.pnpm-store/
+
+# system
+.DS_Store
+Thumbs.db
+
+# vscode
+.vscode/*
+!.vscode/settings.json
