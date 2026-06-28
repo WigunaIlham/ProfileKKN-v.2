@@ -16,7 +16,7 @@ const statusIcon = {
 const statusStyle = {
   done: "text-green-500 bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800",
   active:
-    "text-primary-600 bg-primary-50 dark:bg-primary-900/20 border-primary-200 dark:border-primary-800 ring-4 ring-primary-500/20",
+    "text-primary-600 bg-primary-50 dark:bg-primary-900/20 border-primary-200 dark:border-primary-800 ring-4 ring-primary-500/15",
   upcoming:
     "text-slate-400 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700",
 };
@@ -25,7 +25,8 @@ export function TimelineSection() {
   return (
     <section
       id="timeline"
-      className="section-padding bg-white dark:bg-slate-950"
+      className="section-padding"
+      style={{background: "var(--bg)"}}
       aria-label="Timeline KKN"
     >
       <div className="container-max">
@@ -40,13 +41,17 @@ export function TimelineSection() {
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
-          viewport={{once: true, margin: "-80px"}}
+          viewport={{once: true, margin: "-60px"}}
           className="relative max-w-3xl mx-auto"
         >
-          {/* Vertical line */}
+          {/* Vertical line — gradient from full color top to faded bottom */}
           <div
-            className="absolute left-1/2 -translate-x-0.5 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary-500 via-primary-300 to-slate-200 dark:from-primary-600 dark:via-slate-700 dark:to-slate-800 hidden sm:block"
             aria-hidden="true"
+            className="absolute left-1/2 -translate-x-px top-2 bottom-2 w-px hidden sm:block"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(74,124,89,0.6) 0%, rgba(74,124,89,0.3) 60%, rgba(74,124,89,0.05) 100%)",
+            }}
           />
 
           <div className="space-y-8">
@@ -61,33 +66,50 @@ export function TimelineSection() {
                   className={`relative flex items-center gap-4 sm:gap-8 ${isLeft ? "sm:flex-row" : "sm:flex-row-reverse"}`}
                 >
                   {/* Card */}
-                  <div className="flex-1 p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm card-hover">
+                  <div className="flex-1 p-5 rounded-2xl card-earthy card-hover">
                     <div className="flex items-start gap-3">
                       <div
-                        className={`w-8 h-8 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${statusStyle[event.status]}`}
+                        className={`w-9 h-9 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${statusStyle[event.status]}`}
                       >
                         <Icon className="w-4 h-4" />
                       </div>
-                      <div>
-                        <div className="flex items-center gap-2 flex-wrap mb-1">
-                          <h3 className="font-heading font-bold text-slate-900 dark:text-white">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap mb-1.5">
+                          <h3
+                            className="font-heading font-bold tracking-tight"
+                            style={{color: "var(--text-primary)"}}
+                          >
                             {event.phase}
                           </h3>
-                          <span className="text-xs text-slate-400 dark:text-slate-500">
-                            {event.date}
+                          <span
+                            className="text-[11px] font-semibold uppercase"
+                            style={{
+                              color: "var(--text-muted)",
+                              letterSpacing: "0.10em",
+                            }}
+                          >
+                            · {event.date}
                           </span>
                         </div>
-                        <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                        <p
+                          className="text-sm leading-relaxed"
+                          style={{color: "var(--text-secondary)"}}
+                        >
                           {event.description}
                         </p>
                       </div>
                     </div>
                   </div>
 
-                  {/* Center dot on desktop */}
+                  {/* Center dot — desktop */}
                   <div
-                    className="hidden sm:flex w-4 h-4 rounded-full bg-primary-600 border-4 border-white dark:border-slate-950 shadow-md absolute left-1/2 -translate-x-1/2 z-10"
                     aria-hidden="true"
+                    className="hidden sm:flex w-3 h-3 rounded-full absolute left-1/2 -translate-x-1/2 z-10"
+                    style={{
+                      background: "var(--primary)",
+                      boxShadow:
+                        "0 0 0 3px var(--bg), 0 0 0 4px rgba(74,124,89,0.30)",
+                    }}
                   />
                 </motion.div>
               );

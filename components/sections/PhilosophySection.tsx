@@ -9,8 +9,8 @@ const philosophyCards = [
   {
     icon: Lightbulb,
     title: "Makna JamaLights",
-    color: "from-primary-500 to-primary-700",
-    iconBg: "bg-primary-50 dark:bg-primary-900/30",
+    accent: "from-primary-500 to-primary-700",
+    iconBg: "bg-primary-50 dark:bg-primary-900/20",
     iconColor: "text-primary-600 dark:text-primary-400",
     content:
       '"Jama" berasal dari kata Arab yang berarti bersama/berkumpul, merepresentasikan kebersamaan kelompok kami. "Lights" melambangkan cahaya, harapan, dan penerangan yang kami bawa ke desa.',
@@ -18,8 +18,8 @@ const philosophyCards = [
   {
     icon: Star,
     title: "Filosofi Logo",
-    color: "from-secondary-400 to-secondary-500",
-    iconBg: "bg-sky-50 dark:bg-sky-900/30",
+    accent: "from-sky-400 to-sky-600",
+    iconBg: "bg-sky-50 dark:bg-sky-900/20",
     iconColor: "text-sky-600 dark:text-sky-400",
     content:
       "Logo menampilkan gunung, sawah, dan jalan sebagai simbol pertumbuhan, kehidupan desa, serta perjalanan bersama menuju perubahan yang berkelanjutan.",
@@ -27,8 +27,8 @@ const philosophyCards = [
   {
     icon: Palette,
     title: "Filosofi Warna",
-    color: "from-accent-400 to-accent-500",
-    iconBg: "bg-amber-50 dark:bg-amber-900/30",
+    accent: "from-amber-400 to-amber-600",
+    iconBg: "bg-amber-50 dark:bg-amber-900/20",
     iconColor: "text-amber-600 dark:text-amber-400",
     content:
       "Hijau melambangkan pertumbuhan dan harmoni alam. Cokelat dan krem merepresentasikan kehangatan, budaya, serta kedekatan dengan masyarakat.",
@@ -36,8 +36,8 @@ const philosophyCards = [
   {
     icon: Quote,
     title: "Motto Kami",
-    color: "from-violet-500 to-purple-700",
-    iconBg: "bg-violet-50 dark:bg-violet-900/30",
+    accent: "from-violet-500 to-purple-700",
+    iconBg: "bg-violet-50 dark:bg-violet-900/20",
     iconColor: "text-violet-600 dark:text-violet-400",
     content:
       "“Bersama Mengabdi, Menyalakan Potensi” — komitmen untuk memberi kontribusi nyata dan tumbuh bersama masyarakat Desa Jamali.",
@@ -48,7 +48,8 @@ export function PhilosophySection() {
   return (
     <section
       id="philosophy"
-      className="section-padding bg-slate-50/50 dark:bg-slate-900/50"
+      className="section-padding"
+      style={{background: "var(--bg-secondary)"}}
       aria-label="Filosofi"
     >
       <div className="container-max">
@@ -63,29 +64,36 @@ export function PhilosophySection() {
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
-          viewport={{once: true, margin: "-80px"}}
-          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          viewport={{once: true, margin: "-60px"}}
+          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5"
         >
           {philosophyCards.map((card) => (
             <motion.div
               key={card.title}
               variants={scaleUp}
-              className="relative group p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 card-hover overflow-hidden"
+              className="relative group p-6 rounded-2xl card-earthy card-hover overflow-hidden"
             >
-              {/* Decorative gradient top */}
+              {/* Top accent hairline — animates in on hover */}
               <div
-                className={`absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r ${card.color}`}
+                aria-hidden="true"
+                className={`absolute top-0 left-0 right-0 h-px bg-gradient-to-r ${card.accent} scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left`}
               />
 
               <div
-                className={`w-12 h-12 rounded-xl ${card.iconBg} flex items-center justify-center mb-4`}
+                className={`w-12 h-12 rounded-xl ${card.iconBg} flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110`}
               >
                 <card.icon className={`w-6 h-6 ${card.iconColor}`} />
               </div>
-              <h3 className="font-heading font-bold text-slate-900 dark:text-white mb-3">
+              <h3
+                className="font-heading font-bold mb-3 tracking-tight"
+                style={{color: "var(--text-primary)"}}
+              >
                 {card.title}
               </h3>
-              <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+              <p
+                className="text-sm leading-relaxed"
+                style={{color: "var(--text-secondary)"}}
+              >
                 {card.content}
               </p>
             </motion.div>

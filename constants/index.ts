@@ -7,7 +7,7 @@ export const SITE_CONFIG = {
   instagram:
     "https://www.instagram.com/kkn.jamalights206?igsh=aTYzOTBiNnJ4ZGV6&utm_source=qr",
   whatsapp: "https://wa.me/6281234567890",
-  email: "jamalights206@gmail.com",
+  email: "kknjamalimande@gmail.com",
   address: "Desa Jamali, Kecamatan Mande, Kabupaten Cianjur, Jawa Barat",
   village: "Desa Jamali",
   subdistrict: "Kecamatan Mande",

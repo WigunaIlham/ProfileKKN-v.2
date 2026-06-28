@@ -26,31 +26,23 @@ export function SectionHeader({
       variants={fadeUp}
       initial="hidden"
       whileInView="visible"
-      viewport={{once: true, margin: "-50px"}}
-      className={cn("mb-12 lg:mb-16", centered && "text-center", className)}
+      viewport={{once: true, margin: "-60px"}}
+      className={cn("mb-16 lg:mb-20", centered && "text-center", className)}
     >
-      {tag && (
-        <span className="badge-earthy mb-4 inline-flex">
-          <span
-            className="w-1.5 h-1.5 rounded-full animate-pulse"
-            style={{background: "#4A7C59"}}
-          />
-          {tag}
-        </span>
-      )}
-      <h2 className="section-title mb-4" style={{color: "var(--text-primary)"}}>
-        {title}{" "}
+      {tag && <span className="eyebrow mb-5">{tag}</span>}
+      <h2 className="section-title mb-5" style={{color: "var(--text-primary)"}}>
+        {title}
         {titleHighlight && (
-          <span className="gradient-text-earthy">{titleHighlight}</span>
+          <>
+            {" "}
+            <span style={{color: "var(--primary)"}}>{titleHighlight}</span>
+          </>
         )}
       </h2>
       {subtitle && (
         <p
-          className={cn(
-            "section-subtitle leading-relaxed",
-            centered && "mx-auto",
-          )}
-          style={{color: "var(--text-secondary)"}}
+          className={cn("section-subtitle", centered && "mx-auto")}
+          style={{color: "var(--text-muted)"}}
         >
           {subtitle}
         </p>

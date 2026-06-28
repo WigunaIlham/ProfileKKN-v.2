@@ -16,6 +16,17 @@ export function formatNumber(num: number): string {
   return new Intl.NumberFormat("id-ID").format(num);
 }
 
+export function gmailComposeUrl(
+  to: string,
+  subject?: string,
+  body?: string,
+): string {
+  const params = new URLSearchParams({view: "cm", fs: "1", to});
+  if (subject) params.set("su", subject);
+  if (body) params.set("body", body);
+  return `https://mail.google.com/mail/?${params.toString()}`;
+}
+
 export const statusConfig = {
   planned: {
     label: "Direncanakan",

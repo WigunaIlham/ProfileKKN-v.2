@@ -7,226 +7,98 @@ import logoImage from "@/src/logo.png";
 import {ChevronDown, Instagram, MapPin, Compass} from "lucide-react";
 import {SITE_CONFIG} from "@/constants";
 import {fadeUp, staggerContainer} from "@/lib/motion";
+import {scrollToSection} from "@/lib/utils";
 
 export function HeroSection() {
-  const scrollTo = (id: string) =>
-    document.querySelector(id)?.scrollIntoView({behavior: "smooth"});
-
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24 sm:pt-28 pb-32 sm:pb-36"
       aria-label="Beranda"
     >
-      {/* Background gradient — earthy */}
+      {/* Background: subtle dual-tone */}
       <div
-        className="absolute inset-0"
+        className="dark:hidden absolute inset-0 -z-10"
         style={{
           background:
-            "linear-gradient(160deg, #F9F6F0 0%, #EDE6D6 35%, #deeede 70%, #c8e0c8 100%)",
+            "radial-gradient(120% 80% at 50% 0%, #F9F6F0 0%, #F5F0E8 40%, #EDE6D6 100%)",
         }}
       />
       <div
-        className="dark:hidden absolute inset-0"
+        className="hidden dark:block absolute inset-0 -z-10"
         style={{
           background:
-            "linear-gradient(160deg,#F9F6F0 0%,#EDE6D6 35%,#deeede 70%,#c8e0c8 100%)",
-        }}
-      />
-      <div
-        className="hidden dark:block absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(160deg,#0F1A10 0%,#1C2E1E 40%,#162018 100%)",
+            "radial-gradient(120% 80% at 50% 0%, #162018 0%, #0F1A10 60%, #0a120c 100%)",
         }}
       />
 
-      {/* Floating decoration shapes */}
-      <div
+      {/* One subtle decorative blob */}
+      <motion.div
         aria-hidden="true"
-        className="absolute inset-0 overflow-hidden pointer-events-none"
-      >
-        {/* Large blobs */}
-        <motion.div
-          animate={{y: [0, -25, 0], rotate: [0, 4, 0]}}
-          transition={{duration: 9, repeat: Infinity, ease: "easeInOut"}}
-          className="absolute top-16 right-[8%] w-72 h-72 rounded-full blur-3xl opacity-30"
-          style={{background: "radial-gradient(circle, #4A7C59, transparent)"}}
-        />
-        <motion.div
-          animate={{y: [0, 18, 0], rotate: [0, -3, 0]}}
-          transition={{
-            duration: 11,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1.5,
-          }}
-          className="absolute bottom-24 left-[6%] w-80 h-80 rounded-full blur-3xl opacity-20"
-          style={{background: "radial-gradient(circle, #C4932A, transparent)"}}
-        />
-        <motion.div
-          animate={{y: [0, -12, 0]}}
-          transition={{
-            duration: 7,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 3,
-          }}
-          className="absolute top-1/3 left-[15%] w-40 h-40 rounded-full blur-2xl opacity-25"
-          style={{background: "radial-gradient(circle, #4A7C59, transparent)"}}
-        />
-
-        {/* Grid pattern */}
-        <div
-          className="absolute inset-0 opacity-[0.025]"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right,#2D4A2D 1px,transparent 1px),linear-gradient(to bottom,#2D4A2D 1px,transparent 1px)",
-            backgroundSize: "52px 52px",
-          }}
-        />
-
-        {/* Decorative leaf-ish SVG top right */}
-        <motion.svg
-          animate={{rotate: [0, 8, 0], y: [0, -10, 0]}}
-          transition={{duration: 8, repeat: Infinity, ease: "easeInOut"}}
-          className="absolute top-24 right-[18%] w-24 h-24 opacity-10"
-          viewBox="0 0 100 100"
-          fill="none"
-        >
-          <path
-            d="M50 5 C70 5 95 30 95 55 C95 80 70 95 50 95 C30 95 5 80 5 55 C5 30 30 5 50 5Z"
-            fill="#4A7C59"
-          />
-          <line
-            x1="50"
-            y1="95"
-            x2="50"
-            y2="5"
-            stroke="#2D4A2D"
-            strokeWidth="2"
-          />
-          <line
-            x1="50"
-            y1="50"
-            x2="20"
-            y2="30"
-            stroke="#2D4A2D"
-            strokeWidth="1.5"
-          />
-          <line
-            x1="50"
-            y1="60"
-            x2="78"
-            y2="42"
-            stroke="#2D4A2D"
-            strokeWidth="1.5"
-          />
-        </motion.svg>
-      </div>
+        animate={{y: [0, -20, 0], opacity: [0.35, 0.45, 0.35]}}
+        transition={{duration: 12, repeat: Infinity, ease: "easeInOut"}}
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[640px] h-[640px] rounded-full blur-3xl -z-10 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(74,124,89,0.18), transparent 70%)",
+        }}
+      />
 
       {/* Main content */}
       <motion.div
         variants={staggerContainer}
         initial="hidden"
         animate="visible"
-        className="relative z-10 text-center px-4 sm:px-6 max-w-4xl mx-auto"
+        className="relative z-10 text-center px-4 sm:px-6 max-w-3xl mx-auto"
       >
-        {/* Location badge */}
+        {/* Eyebrow location */}
         <motion.div variants={fadeUp}>
-          <span className="badge-earthy mb-6 inline-flex">
-            <MapPin className="w-3 h-3" />
-            Desa Jamali · Kec. Mande · Kab. Cianjur
+          <span className="eyebrow mb-8 inline-flex">
+            <MapPin className="w-3 h-3" aria-hidden="true" />
+            Desa Jamali · Cianjur
           </span>
         </motion.div>
 
-        {/* Logo */}
-        <motion.div variants={fadeUp} className="flex justify-center mb-8">
-          <div className="relative">
-            <div
-              className="relative w-28 h-28 rounded-full overflow-hidden ring-4 ring-primary-500/30 shadow-2xl"
-              style={{
-                boxShadow: "0 20px 60px rgba(45,74,45,0.35)",
-              }}
-            >
-              {/* Logo asli */}
-              <Image
-                src={logoImage}
-                alt="Logo KKN Desa Jamali"
-                fill
-                priority
-                className="object-contain z-10"
-              />
-            </div>
-
-            {/* Glow ring (tetap) */}
-            <motion.div
-              animate={{
-                scale: [1, 1.15, 1],
-                opacity: [0.3, 0, 0.3],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              className="absolute inset-0 rounded-full"
-              style={{
-                border: "2px solid #efc95a",
-              }}
+        {/* Logo — gentle float */}
+        <motion.div variants={fadeUp} className="flex justify-center mb-10">
+          <motion.div
+            animate={{y: [0, -8, 0]}}
+            transition={{duration: 6, repeat: Infinity, ease: "easeInOut"}}
+            className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden ring-1 ring-[var(--border)] shadow-[0_8px_32px_rgba(45,74,45,0.15)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+          >
+            <Image
+              src={logoImage}
+              alt="Logo KKN Desa Jamali"
+              fill
+              priority
+              className="object-contain"
             />
-          </div>
+          </motion.div>
         </motion.div>
 
         {/* Title */}
         <motion.h1
           variants={fadeUp}
-          className="font-heading font-black leading-[1.05] tracking-tight mb-4"
-          style={{
-            fontSize: "clamp(2.8rem, 8vw, 5.5rem)",
-            color: "var(--text-primary)",
-          }}
+          className="font-heading font-bold leading-[1.02] tracking-tight mb-6 text-[var(--text-primary)]"
+          style={{fontSize: "clamp(2.75rem, 8vw, 5.25rem)"}}
         >
           KKN <span className="gradient-text-earthy">Jama</span>
-          <span className="gradient-text-gold">Lights</span>
-          <br />
-          <span
-            style={{
-              fontSize: "clamp(2rem, 5vw, 3.5rem)",
-              color: "var(--text-secondary)",
-            }}
-          >
-            206
-          </span>
+          <span className="gradient-text-gold">Lights</span>{" "}
+          <span style={{color: "var(--primary)"}}>206</span>
         </motion.h1>
 
         {/* Motto */}
-        <motion.div
-          variants={fadeUp}
-          className="flex items-center justify-center gap-3 mb-4"
-        >
-          {SITE_CONFIG.motto.map((m, i) => (
-            <span key={m} className="flex items-center gap-3">
-              <span
-                className="font-heading font-semibold text-base sm:text-lg"
-                style={{color: "var(--primary)"}}
-              >
-                {m}
-              </span>
-              {i < SITE_CONFIG.motto.length - 1 && (
-                <span
-                  className="w-1 h-1 rounded-full"
-                  style={{background: "#C4932A"}}
-                />
-              )}
-            </span>
-          ))}
-        </motion.div>
-
         <motion.p
           variants={fadeUp}
-          className="text-sm sm:text-base max-w-xl mx-auto mb-10 leading-relaxed"
-          style={{color: "var(--text-muted)"}}
+          className="text-base sm:text-lg font-medium tracking-tight mb-4 text-[var(--text-secondary)]"
+        >
+          {SITE_CONFIG.motto.join(" · ")}
+        </motion.p>
+
+        {/* Description */}
+        <motion.p
+          variants={fadeUp}
+          className="text-sm sm:text-base max-w-xl mx-auto mb-12 leading-relaxed text-[var(--text-muted)]"
         >
           {SITE_CONFIG.description}
         </motion.p>
@@ -234,9 +106,12 @@ export function HeroSection() {
         {/* CTAs */}
         <motion.div
           variants={fadeUp}
-          className="flex flex-wrap items-center justify-center gap-4"
+          className="flex flex-wrap items-center justify-center gap-3"
         >
-          <button onClick={() => scrollTo("#about")} className="btn-primary">
+          <button
+            onClick={() => scrollToSection("#about")}
+            className="btn-primary"
+          >
             <Compass className="w-4 h-4" />
             Jelajahi
           </button>
@@ -247,58 +122,36 @@ export function HeroSection() {
             className="btn-secondary"
           >
             <Instagram className="w-4 h-4" />
-            Follow Instagram
+            Instagram
           </Link>
         </motion.div>
 
-        {/* Motto strip */}
-        <motion.div
+        {/* Footnote */}
+        <motion.p
           variants={fadeUp}
-          className="mt-12 flex items-center justify-center gap-2 text-xs font-medium tracking-widest uppercase"
-          style={{color: "var(--text-muted)"}}
+          className="mt-14 text-[10.5px] font-medium tracking-[0.18em] uppercase text-[var(--text-muted)]"
         >
-          <div
-            className="h-px w-12"
-            style={{background: "var(--primary)", opacity: 0.4}}
-          />
-          UIN Sunan Gunung Djati Bandung · 2026
-          <div
-            className="h-px w-12"
-            style={{background: "var(--primary)", opacity: 0.4}}
-          />
-        </motion.div>
+          UIN Sunan Gunung Djati Bandung · {SITE_CONFIG.year}
+        </motion.p>
       </motion.div>
 
       {/* Scroll indicator */}
-      <motion.div
+      <motion.button
+        onClick={() => scrollToSection("#about")}
         initial={{opacity: 0}}
         animate={{opacity: 1}}
-        transition={{delay: 2, duration: 0.6}}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5"
-        aria-hidden="true"
+        transition={{delay: 1.6, duration: 0.6}}
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-[var(--text-muted)] hover:text-[var(--primary)] transition-colors duration-200"
+        aria-label="Scroll ke section selanjutnya"
       >
-        <span
-          className="text-[10px] tracking-widest uppercase font-medium"
-          style={{color: "var(--text-muted)"}}
-        >
+        <span className="text-[10px] tracking-[0.18em] uppercase font-medium">
           Scroll
         </span>
-        <div
-          className="w-5 h-8 rounded-full border-2 flex justify-center pt-1.5"
-          style={{borderColor: "rgba(74,124,89,0.4)"}}
-        >
-          <motion.div
-            animate={{y: [0, 8, 0], opacity: [1, 0, 1]}}
-            transition={{duration: 1.6, repeat: Infinity, ease: "easeInOut"}}
-            className="w-1 h-1.5 rounded-full"
-            style={{background: "var(--primary)"}}
-          />
-        </div>
         <ChevronDown
           className="w-4 h-4 animate-bounce"
-          style={{color: "var(--primary)"}}
+          aria-hidden="true"
         />
-      </motion.div>
+      </motion.button>
     </section>
   );
 }

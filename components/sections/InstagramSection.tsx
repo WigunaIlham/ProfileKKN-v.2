@@ -8,7 +8,6 @@ import {SectionHeader} from "@/components/ui/SectionHeader";
 import {SITE_CONFIG} from "@/constants";
 import {staggerContainer, fadeUp} from "@/lib/motion";
 
-// Tipe data untuk post
 interface Post {
   id: string;
   src: string;
@@ -17,10 +16,8 @@ interface Post {
 }
 
 export function InstagramSection() {
-  // 1. Definisikan state untuk menampung feed
   const [feed, setFeed] = useState<Post[]>([]);
 
-  // 2. Generate data acak HANYA setelah komponen masuk ke client (mounted)
   useEffect(() => {
     const generatedFeed = Array.from({length: 6}, (_, i) => ({
       id: String(i + 1),
@@ -34,7 +31,8 @@ export function InstagramSection() {
   return (
     <section
       id="instagram"
-      className="section-padding bg-slate-50/50 dark:bg-slate-900/50"
+      className="section-padding"
+      style={{background: "var(--bg-secondary)"}}
       aria-label="Instagram Feed"
     >
       <div className="container-max">
@@ -50,26 +48,32 @@ export function InstagramSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{once: true}}
-          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-8"
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-10"
         >
-          {/* 3. Render feed jika datanya sudah siap di client */}
           {feed.map((post) => (
             <motion.div
               key={post.id}
               variants={fadeUp}
-              className="group relative aspect-square overflow-hidden rounded-2xl bg-slate-200 dark:bg-slate-800"
+              className="group relative aspect-square overflow-hidden rounded-2xl"
+              style={{background: "var(--bg-card)"}}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={post.src}
                 alt={post.alt}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-primary-900/0 group-hover:bg-primary-900/50 transition-all duration-300 flex items-center justify-center">
-                <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center text-white">
+              <div
+                className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{
+                  background:
+                    "linear-gradient(180deg, rgba(28,51,32,0.20), rgba(28,51,32,0.75))",
+                }}
+              >
+                <div className="text-center text-white">
                   <Instagram className="w-6 h-6 mx-auto mb-1" />
-                  <p className="text-xs font-medium">{post.likes} likes</p>
+                  <p className="text-xs font-semibold">{post.likes} likes</p>
                 </div>
               </div>
             </motion.div>
@@ -81,11 +85,11 @@ export function InstagramSection() {
             href={SITE_CONFIG.instagram}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold hover:opacity-90 transition-opacity duration-200 shadow-lg shadow-pink-500/30"
+            className="btn-primary"
           >
-            <Instagram className="w-5 h-5" />
+            <Instagram className="w-4 h-4" />
             Lihat di Instagram
-            <ExternalLink className="w-4 h-4" />
+            <ExternalLink className="w-3.5 h-3.5" />
           </Link>
         </div>
       </div>

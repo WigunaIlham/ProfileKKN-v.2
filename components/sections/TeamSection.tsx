@@ -35,10 +35,9 @@ function MemberCard({member}: {member: TeamMember}) {
   return (
     <motion.article
       variants={fadeUp}
-      className="group relative rounded-2xl overflow-hidden card-earthy"
+      className="group relative rounded-2xl overflow-hidden card-earthy card-hover"
       aria-label={`${member.name} — ${member.role}`}
     >
-      {/* Photo */}
       <div
         className="relative aspect-square overflow-hidden"
         style={{background: "var(--bg-secondary)"}}
@@ -53,7 +52,6 @@ function MemberCard({member}: {member: TeamMember}) {
           avatarTextClassName="text-2xl"
         />
 
-        {/* Instagram hover overlay */}
         {member.instagram && (
           <Link
             href={member.instagram}
@@ -74,8 +72,8 @@ function MemberCard({member}: {member: TeamMember}) {
               <div
                 className="w-10 h-10 rounded-full flex items-center justify-center"
                 style={{
-                  background: "rgba(245,240,232,0.2)",
-                  border: "1px solid rgba(245,240,232,0.3)",
+                  background: "rgba(245,240,232,0.18)",
+                  border: "1px solid rgba(245,240,232,0.28)",
                 }}
               >
                 <Instagram className="w-5 h-5" />
@@ -88,10 +86,9 @@ function MemberCard({member}: {member: TeamMember}) {
         )}
       </div>
 
-      {/* Info */}
       <div className="p-3">
         <p
-          className="font-heading font-semibold text-sm truncate leading-tight"
+          className="font-heading font-semibold text-sm truncate leading-tight tracking-tight"
           style={{color: "var(--text-primary)"}}
         >
           {member.name}
@@ -132,28 +129,28 @@ export function TeamSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{once: true, margin: "-60px"}}
-          className="space-y-6"
+          className="space-y-8"
         >
           {/* Ketua — featured center */}
           {chairperson && (
             <div className="flex justify-center">
               <motion.article
                 variants={fadeUp}
-                className="relative rounded-2xl overflow-hidden w-full max-w-[200px]"
+                className="relative rounded-2xl overflow-hidden w-full max-w-[220px] transition-transform duration-300 hover:-translate-y-1"
                 style={{
-                  border: "2px solid #4A7C59",
-                  boxShadow:
-                    "0 12px 40px rgba(45,74,45,0.22), 0 0 0 4px rgba(74,124,89,0.12)",
                   background: "var(--bg-card)",
+                  border: "1.5px solid rgba(74,124,89,0.45)",
+                  boxShadow:
+                    "0 12px 40px rgba(45,74,45,0.18), 0 0 0 4px rgba(74,124,89,0.08)",
                 }}
                 aria-label={`${chairperson.name} — Ketua`}
               >
                 {/* Chair crown badge */}
                 <div className="absolute top-2.5 right-2.5 z-20">
                   <span
-                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black"
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold"
                     style={{
-                      background: "linear-gradient(135deg,#D4A843,#C4932A)",
+                      background: "#C4932A",
                       color: "#1C3320",
                     }}
                   >
@@ -163,7 +160,7 @@ export function TeamSection() {
                 </div>
 
                 <div
-                  className="relative aspect-square overflow-hidden"
+                  className="relative aspect-square overflow-hidden group"
                   style={{background: "var(--bg-secondary)"}}
                 >
                   <DriveImage
@@ -181,7 +178,7 @@ export function TeamSection() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`Instagram ${chairperson.name}`}
-                      className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-all duration-300 z-10"
+                      className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-10"
                       style={{
                         background: "rgba(28,51,32,0.65)",
                         backdropFilter: "blur(4px)",
@@ -202,7 +199,7 @@ export function TeamSection() {
 
                 <div className="p-4 text-center">
                   <p
-                    className="font-heading font-bold"
+                    className="font-heading font-bold tracking-tight"
                     style={{color: "var(--text-primary)"}}
                   >
                     {chairperson.name}
@@ -221,7 +218,7 @@ export function TeamSection() {
                       href={chairperson.instagram}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-3 inline-flex items-center gap-1 text-[11px] font-medium transition-colors duration-200"
+                      className="mt-3 inline-flex items-center gap-1 text-[11px] font-medium transition-opacity duration-200 hover:opacity-80"
                       style={{color: "var(--primary)"}}
                     >
                       <Instagram className="w-3 h-3" />

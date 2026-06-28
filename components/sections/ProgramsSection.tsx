@@ -3,7 +3,6 @@
 import {motion} from "framer-motion";
 import {Monitor, Heart, ShoppingBag, Leaf, BookOpen, Music} from "lucide-react";
 import {SectionHeader} from "@/components/ui/SectionHeader";
-import {Badge} from "@/components/ui/Badge";
 import {workPrograms} from "@/data/programs";
 import {statusConfig} from "@/lib/utils";
 import {staggerContainer, fadeUp} from "@/lib/motion";
@@ -22,7 +21,8 @@ export function ProgramsSection() {
   return (
     <section
       id="programs"
-      className="section-padding bg-slate-50/50 dark:bg-slate-900/50"
+      className="section-padding"
+      style={{background: "var(--bg-secondary)"}}
       aria-label="Program Kerja"
     >
       <div className="container-max">
@@ -38,7 +38,7 @@ export function ProgramsSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{once: true, margin: "-60px"}}
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"
         >
           {workPrograms.map((program: WorkProgram) => {
             const Icon = iconMap[program.icon] || Monitor;
@@ -48,30 +48,48 @@ export function ProgramsSection() {
               <motion.div
                 key={program.id}
                 variants={fadeUp}
-                className="group p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 card-hover"
+                className="group p-6 rounded-2xl card-earthy card-hover"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="w-12 h-12 rounded-xl bg-primary-50 dark:bg-primary-900/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                     <Icon className="w-6 h-6 text-primary-600 dark:text-primary-400" />
                   </div>
                   <span
-                    className={`px-2.5 py-1 rounded-full text-xs font-medium ${status.color}`}
+                    className={`px-2.5 py-1 rounded-full text-[11px] font-semibold ${status.color}`}
                   >
                     {status.label}
                   </span>
                 </div>
-                <h3 className="font-heading font-bold text-slate-900 dark:text-white mb-2">
+                <h3
+                  className="font-heading font-bold mb-2 tracking-tight"
+                  style={{color: "var(--text-primary)"}}
+                >
                   {program.name}
                 </h3>
-                <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                <p
+                  className="text-sm leading-relaxed mb-4"
+                  style={{color: "var(--text-secondary)"}}
+                >
                   {program.description}
                 </p>
-                <div className="flex items-center gap-2 pt-4 border-t border-slate-100 dark:border-slate-800">
-                  <span className="text-xs text-slate-400 dark:text-slate-500">
-                    Target:
+                <div
+                  className="flex items-center gap-2 pt-4 border-t"
+                  style={{borderColor: "var(--border)"}}
+                >
+                  <span
+                    className="text-[11px] font-semibold uppercase"
+                    style={{
+                      color: "var(--text-muted)",
+                      letterSpacing: "0.10em",
+                    }}
+                  >
+                    Target
                   </span>
-                  <span className="text-xs font-medium text-slate-700 dark:text-slate-300">
-                    {program.target}
+                  <span
+                    className="text-xs font-medium"
+                    style={{color: "var(--text-secondary)"}}
+                  >
+                    · {program.target}
                   </span>
                 </div>
               </motion.div>

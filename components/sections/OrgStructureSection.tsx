@@ -11,72 +11,78 @@ import {
   Calendar,
   Package,
   Users,
+  type LucideIcon,
 } from "lucide-react";
 
-const orgData = [
-  {
-    role: "Ketua",
-    icon: Crown,
-    color: "bg-primary-600",
-    textColor: "text-white",
-    borderColor: "border-primary-600",
-    level: 0,
-  },
-  {
-    role: "Sekretaris",
-    icon: FileText,
-    color: "bg-sky-500",
-    textColor: "text-white",
-    borderColor: "border-sky-500",
-    level: 1,
-  },
-  {
-    role: "Bendahara",
-    icon: Wallet,
-    color: "bg-amber-500",
-    textColor: "text-white",
-    borderColor: "border-amber-500",
-    level: 1,
-  },
-  {
-    role: "PDD",
-    icon: Camera,
-    color: "bg-violet-500",
-    textColor: "text-white",
-    borderColor: "border-violet-500",
-    level: 2,
-  },
-  {
-    role: "Acara",
-    icon: Calendar,
-    color: "bg-green-500",
-    textColor: "text-white",
-    borderColor: "border-green-500",
-    level: 2,
-  },
-  {
-    role: "Logistik",
-    icon: Package,
-    color: "bg-orange-500",
-    textColor: "text-white",
-    borderColor: "border-orange-500",
-    level: 2,
-  },
-  {
-    role: "Humas",
-    icon: Users,
-    color: "bg-rose-500",
-    textColor: "text-white",
-    borderColor: "border-rose-500",
-    level: 2,
-  },
+interface OrgNode {
+  role: string;
+  icon: LucideIcon;
+  color: string;
+}
+
+const ketua: OrgNode = {role: "Ketua", icon: Crown, color: "bg-primary-600"};
+const officials: OrgNode[] = [
+  {role: "Sekretaris", icon: FileText, color: "bg-sky-500"},
+  {role: "Bendahara", icon: Wallet, color: "bg-amber-500"},
+];
+const divisions: OrgNode[] = [
+  {role: "PDD", icon: Camera, color: "bg-violet-500"},
+  {role: "Acara", icon: Calendar, color: "bg-green-500"},
+  {role: "Logistik", icon: Package, color: "bg-orange-500"},
+  {role: "Humas", icon: Users, color: "bg-rose-500"},
 ];
 
-export function OrgStructureSection() {
-  const ketua = orgData.filter((o) => o.level === 0);
-  const level1 = orgData.filter((o) => o.level === 1);
-  const level2 = orgData.filter((o) => o.level === 2);
+function Card({node, big = false}: {node: OrgNode; big?: boolean}) {
+  return (
+    <div
+      className={`relative flex flex-col items-center justify-center gap-2 rounded-2xl text-white transition-all duration-300 hover:-translate-y-0.5 ${node.color} ${
+        big
+          ? "p-6 min-w-[170px] shadow-[0_8px_24px_rgba(45,74,45,0.18)] hover:shadow-[0_14px_32px_rgba(45,74,45,0.25)]"
+          : "p-4 min-w-[110px] shadow-[0_4px_14px_rgba(45,74,45,0.12)] hover:shadow-[0_10px_24px_rgba(45,74,45,0.20)]"
+      }`}
+    >
+      <node.icon
+        className={big ? "w-8 h-8" : "w-5 h-5"}
+        aria-hidden="true"
+      />
+      <span
+        className={`font-heading font-semibold ${big ? "text-base" : "text-sm"}`}
+      >
+        {node.role}
+      </span>
+    </div>
+  );
+}
 
+// Continuous SVG path — no gaps at junctions.
+// Coordinates are percentages of the chart container's bounding box.
+// Desktop layout: 3-col Sek/Ben + 4-col divisions.
+const DESKTOP_PATH = [
+  "M 50 25 L 50 34", // Ketua → bar-1
+  "M 16.67 34 L 83.33 34", // bar-1
+  "M 16.67 34 L 16.67 42", // bar-1 → Sek
+  "M 83.33 34 L 83.33 42", // bar-1 → Ben
+  "M 50 34 L 50 71", // center continuing → bar-2
+  "M 12.5 71 L 87.5 71", // bar-2
+  "M 12.5 71 L 12.5 79", // bar-2 → PDD
+  "M 37.5 71 L 37.5 79", // bar-2 → Acara
+  "M 62.5 71 L 62.5 79", // bar-2 → Logistik
+  "M 87.5 71 L 87.5 79", // bar-2 → Humas
+].join(" ");
+
+// Mobile layout: 3-col Sek/Ben + 2-col 2×2 divisions.
+const MOBILE_PATH = [
+  "M 50 20 L 50 27",
+  "M 16.67 27 L 83.33 27",
+  "M 16.67 27 L 16.67 33",
+  "M 83.33 27 L 83.33 33",
+  "M 50 27 L 50 57",
+  "M 25 57 L 75 57",
+  "M 25 57 L 25 63",
+  "M 75 57 L 75 63",
+].join(" ");
+
+export function OrgStructureSection() {
   return (
     <section
       id="org-structure"
@@ -95,72 +101,75 @@ export function OrgStructureSection() {
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
-          viewport={{once: true}}
-          className="flex flex-col items-center gap-8"
+          viewport={{once: true, margin: "-60px"}}
+          className="relative mx-auto max-w-3xl"
         >
-          {/* Level 0 — Ketua */}
-          <motion.div variants={fadeUp} className="flex flex-col items-center">
-            {ketua.map((node) => (
-              <div
-                key={node.role}
-                className={`flex flex-col items-center gap-2 p-5 rounded-2xl ${node.color} shadow-2xl shadow-primary-500/30 min-w-[140px]`}
-              >
-                <node.icon className="w-7 h-7 text-white" />
-                <span className="font-heading font-bold text-white text-sm">
-                  {node.role}
-                </span>
-              </div>
-            ))}
-            <div className="w-0.5 h-8 bg-slate-300 dark:bg-slate-700" />
-          </motion.div>
-
-          {/* Level 1 */}
-          <motion.div
-            variants={fadeUp}
-            className="flex flex-wrap justify-center gap-6 sm:gap-12"
+          {/* SVG connectors — desktop */}
+          <svg
+            className="absolute inset-0 w-full h-full pointer-events-none text-primary-500/55 dark:text-primary-400/70 hidden sm:block"
+            preserveAspectRatio="none"
+            viewBox="0 0 100 100"
+            aria-hidden="true"
           >
-            {level1.map((node, i) => (
-              <div key={node.role} className="flex flex-col items-center gap-2">
-                <div className="w-0.5 h-0 sm:h-0" />
-                <div
-                  className={`flex flex-col items-center gap-2 p-4 rounded-2xl ${node.color} shadow-lg min-w-[120px]`}
-                >
-                  <node.icon className="w-5 h-5 text-white" />
-                  <span className="font-heading font-bold text-white text-sm">
-                    {node.role}
-                  </span>
+            <path
+              d={DESKTOP_PATH}
+              stroke="currentColor"
+              strokeWidth="1.25"
+              fill="none"
+              strokeLinecap="round"
+              vectorEffect="non-scaling-stroke"
+            />
+          </svg>
+
+          {/* SVG connectors — mobile */}
+          <svg
+            className="absolute inset-0 w-full h-full pointer-events-none text-primary-500/55 dark:text-primary-400/70 sm:hidden"
+            preserveAspectRatio="none"
+            viewBox="0 0 100 100"
+            aria-hidden="true"
+          >
+            <path
+              d={MOBILE_PATH}
+              stroke="currentColor"
+              strokeWidth="1.25"
+              fill="none"
+              strokeLinecap="round"
+              vectorEffect="non-scaling-stroke"
+            />
+          </svg>
+
+          <div className="relative flex flex-col items-center">
+            {/* L0: Ketua */}
+            <motion.div variants={fadeUp} className="mb-14">
+              <Card node={ketua} big />
+            </motion.div>
+
+            {/* L1: Sekretaris — Bendahara (3-col grid, middle empty for passthrough) */}
+            <motion.div
+              variants={fadeUp}
+              className="grid grid-cols-3 items-center w-full mb-14"
+            >
+              <div className="flex justify-center">
+                <Card node={officials[0]} />
+              </div>
+              <div aria-hidden="true" />
+              <div className="flex justify-center">
+                <Card node={officials[1]} />
+              </div>
+            </motion.div>
+
+            {/* L2: 4 divisions */}
+            <motion.div
+              variants={fadeUp}
+              className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full"
+            >
+              {divisions.map((node) => (
+                <div key={node.role} className="flex justify-center">
+                  <Card node={node} />
                 </div>
-                {i === 0 && (
-                  <div className="hidden sm:block w-0.5 h-8 bg-slate-300 dark:bg-slate-700" />
-                )}
-              </div>
-            ))}
-          </motion.div>
-
-          {/* Connector */}
-          <div className="hidden sm:flex items-center w-full max-w-3xl">
-            <div className="flex-1 h-0.5 bg-slate-300 dark:bg-slate-700" />
-            <div className="w-0.5 h-8 bg-slate-300 dark:bg-slate-700 -translate-y-4" />
-            <div className="flex-1 h-0.5 bg-slate-300 dark:bg-slate-700" />
+              ))}
+            </motion.div>
           </div>
-
-          {/* Level 2 */}
-          <motion.div
-            variants={fadeUp}
-            className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-3xl"
-          >
-            {level2.map((node) => (
-              <div
-                key={node.role}
-                className={`flex flex-col items-center gap-2 p-4 rounded-2xl ${node.color} shadow-md`}
-              >
-                <node.icon className="w-5 h-5 text-white" />
-                <span className="font-heading font-bold text-white text-sm text-center">
-                  {node.role}
-                </span>
-              </div>
-            ))}
-          </motion.div>
         </motion.div>
       </div>
     </section>

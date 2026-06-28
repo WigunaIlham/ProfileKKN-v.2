@@ -43,6 +43,8 @@ export const staggerContainer = {
   },
 };
 
+export const VIEWPORT_ONCE = {once: true, margin: "-60px"} as const;
+
 export const scaleUp = {
   hidden: {opacity: 0, scale: 0.8},
   visible: {

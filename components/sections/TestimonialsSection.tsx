@@ -13,7 +13,7 @@ import type {Testimonial} from "@/types";
 
 export function TestimonialsSection() {
   const [emblaRef, emblaApi] = useEmblaCarousel({loop: true, align: "center"}, [
-    Autoplay({delay: 4000, stopOnInteraction: true}),
+    Autoplay({delay: 4500, stopOnInteraction: true}),
   ]);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -31,7 +31,8 @@ export function TestimonialsSection() {
   return (
     <section
       id="testimonials"
-      className="section-padding bg-white dark:bg-slate-950"
+      className="section-padding"
+      style={{background: "var(--bg)"}}
       aria-label="Testimoni"
     >
       <div className="container-max">
@@ -55,14 +56,19 @@ export function TestimonialsSection() {
                   key={t.id}
                   className="flex-none w-[85vw] sm:w-[50vw] lg:w-[38vw] max-w-lg"
                 >
-                  <div className="h-full p-6 sm:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
-                    <Quote className="w-8 h-8 text-primary-200 dark:text-primary-900 mb-4" />
-                    <p className="text-slate-700 dark:text-slate-300 leading-relaxed mb-6 italic">
+                  <div className="h-full p-6 sm:p-8 rounded-2xl card-earthy">
+                    <Quote
+                      className="w-8 h-8 mb-4"
+                      style={{color: "rgba(196,147,42,0.30)"}}
+                    />
+                    <p
+                      className="leading-relaxed mb-6 italic"
+                      style={{color: "var(--text-secondary)"}}
+                    >
                       {t.content}
                     </p>
                     <div className="flex items-center gap-3">
-                      {/* Avatar — DriveImage dengan fallback dari nama */}
-                      <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+                      <div className="w-11 h-11 rounded-full overflow-hidden flex-shrink-0">
                         <DriveImage
                           driveId={t.driveId}
                           alt={`Foto ${t.name}`}
@@ -73,10 +79,16 @@ export function TestimonialsSection() {
                         />
                       </div>
                       <div>
-                        <p className="font-heading font-semibold text-sm text-slate-900 dark:text-white">
+                        <p
+                          className="font-heading font-semibold text-sm tracking-tight"
+                          style={{color: "var(--text-primary)"}}
+                        >
                           {t.name}
                         </p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">
+                        <p
+                          className="text-xs mt-0.5"
+                          style={{color: "var(--text-muted)"}}
+                        >
                           {t.role}
                         </p>
                       </div>
@@ -88,32 +100,46 @@ export function TestimonialsSection() {
           </div>
 
           {/* Controls */}
-          <div className="flex items-center justify-center gap-4 mt-8">
+          <div className="flex items-center justify-center gap-4 mt-10">
             <button
               onClick={() => emblaApi?.scrollPrev()}
               aria-label="Testimoni sebelumnya"
-              className="w-10 h-10 rounded-full border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:border-primary-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200"
+              className="w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-200 hover:-translate-x-0.5"
+              style={{
+                borderColor: "var(--border)",
+                color: "var(--text-muted)",
+                background: "var(--bg-card)",
+              }}
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
-            <div className="flex gap-2">
+            <div className="flex gap-1.5">
               {testimonials.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => emblaApi?.scrollTo(i)}
                   aria-label={`Slide ${i + 1}`}
-                  className={`rounded-full transition-all duration-300 ${
-                    i === selectedIndex
-                      ? "w-6 h-2 bg-primary-600"
-                      : "w-2 h-2 bg-slate-300 dark:bg-slate-700"
-                  }`}
+                  className="rounded-full transition-all duration-300"
+                  style={{
+                    width: i === selectedIndex ? "1.5rem" : "0.375rem",
+                    height: "0.375rem",
+                    background:
+                      i === selectedIndex
+                        ? "var(--primary)"
+                        : "rgba(74,124,89,0.25)",
+                  }}
                 />
               ))}
             </div>
             <button
               onClick={() => emblaApi?.scrollNext()}
               aria-label="Testimoni berikutnya"
-              className="w-10 h-10 rounded-full border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:border-primary-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200"
+              className="w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-200 hover:translate-x-0.5"
+              style={{
+                borderColor: "var(--border)",
+                color: "var(--text-muted)",
+                background: "var(--bg-card)",
+              }}
             >
               <ChevronRight className="w-5 h-5" />
             </button>

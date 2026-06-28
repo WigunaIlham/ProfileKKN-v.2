@@ -15,30 +15,26 @@ const iconMap: Record<string, React.ElementType> = {
 
 const colorMap: Record<
   string,
-  {bg: string; icon: string; border: string; grad: string}
+  {bg: string; icon: string; grad: string}
 > = {
   blue: {
     bg: "bg-primary-50 dark:bg-primary-900/20",
     icon: "text-primary-600 dark:text-primary-400",
-    border: "hover:border-primary-300 dark:hover:border-primary-700",
     grad: "from-primary-500 to-primary-700",
   },
   purple: {
     bg: "bg-violet-50 dark:bg-violet-900/20",
     icon: "text-violet-600 dark:text-violet-400",
-    border: "hover:border-violet-300 dark:hover:border-violet-700",
     grad: "from-violet-500 to-purple-700",
   },
   amber: {
     bg: "bg-amber-50 dark:bg-amber-900/20",
     icon: "text-amber-600 dark:text-amber-400",
-    border: "hover:border-amber-300 dark:hover:border-amber-700",
     grad: "from-amber-400 to-amber-600",
   },
   green: {
     bg: "bg-green-50 dark:bg-green-900/20",
     icon: "text-green-600 dark:text-green-400",
-    border: "hover:border-green-300 dark:hover:border-green-700",
     grad: "from-green-500 to-emerald-700",
   },
 };
@@ -47,7 +43,8 @@ export function DivisionsSection() {
   return (
     <section
       id="divisions"
-      className="section-padding bg-white dark:bg-slate-950"
+      className="section-padding"
+      style={{background: "var(--bg)"}}
       aria-label="Divisi"
     >
       <div className="container-max">
@@ -63,7 +60,7 @@ export function DivisionsSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{once: true, margin: "-60px"}}
-          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5"
         >
           {divisions.map((div) => {
             const Icon = iconMap[div.icon] || Camera;
@@ -73,21 +70,29 @@ export function DivisionsSection() {
               <motion.div
                 key={div.id}
                 variants={scaleUp}
-                className={`group relative p-6 rounded-2xl border border-slate-100 dark:border-slate-800 ${colors.border} bg-white dark:bg-slate-900 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 overflow-hidden cursor-pointer`}
+                className="group relative p-6 rounded-2xl card-earthy card-hover overflow-hidden"
               >
+                {/* Animated top accent hairline */}
                 <div
-                  className={`absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r ${colors.grad} scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left`}
+                  aria-hidden="true"
+                  className={`absolute top-0 left-0 right-0 h-px bg-gradient-to-r ${colors.grad} scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left`}
                 />
 
                 <div
-                  className={`w-14 h-14 rounded-2xl ${colors.bg} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300`}
+                  className={`w-14 h-14 rounded-2xl ${colors.bg} flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110`}
                 >
                   <Icon className={`w-7 h-7 ${colors.icon}`} />
                 </div>
-                <h3 className="font-heading font-bold text-xl text-slate-900 dark:text-white mb-2">
+                <h3
+                  className="font-heading font-bold text-xl mb-2 tracking-tight"
+                  style={{color: "var(--text-primary)"}}
+                >
                   {div.name}
                 </h3>
-                <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                <p
+                  className="text-sm leading-relaxed"
+                  style={{color: "var(--text-secondary)"}}
+                >
                   {div.description}
                 </p>
               </motion.div>

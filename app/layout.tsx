@@ -1,5 +1,6 @@
 import type {Metadata, Viewport} from "next";
 import {Plus_Jakarta_Sans, Poppins} from "next/font/google";
+import {Analytics} from "@vercel/analytics/next";
 import {ThemeProvider} from "@/components/providers/ThemeProvider";
 import {SplashScreen} from "@/components/ui/SplashScreen";
 import {ScrollProgress} from "@/components/ui/ScrollProgress";
@@ -39,6 +40,7 @@ export const metadata: Metadata = {
   ],
   authors: [{name: "KKN JamaLights 206"}],
   creator: "KKN JamaLights 206",
+  metadataBase: new URL(SITE_CONFIG.url),
   openGraph: {
     type: "website",
     locale: "id_ID",
@@ -46,20 +48,11 @@ export const metadata: Metadata = {
     title: SITE_CONFIG.og.title,
     description: SITE_CONFIG.og.description,
     siteName: SITE_CONFIG.name,
-    images: [
-      {
-        url: SITE_CONFIG.og.image,
-        width: 1200,
-        height: 630,
-        alt: SITE_CONFIG.name,
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: SITE_CONFIG.og.title,
     description: SITE_CONFIG.og.description,
-    images: [SITE_CONFIG.og.image],
   },
   robots: {
     index: true,
@@ -89,16 +82,35 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+// Strips browser-extension attributes (Edge form-fill `fdprocessedid`, Grammarly,
+// password managers) that mutate the DOM before React hydrates and would otherwise
+// trigger hydration mismatch warnings. Runs as early as possible.
+const extensionAttrStripScript = `(function(){
+  var attrs = ['fdprocessedid','cz-shortcut-listen','data-new-gr-c-s-check-loaded','data-gr-ext-installed'];
+  function clean(root){ attrs.forEach(function(a){ root.querySelectorAll && root.querySelectorAll('['+a+']').forEach(function(el){ el.removeAttribute(a); }); }); }
+  clean(document.documentElement);
+  new MutationObserver(function(muts){ for (var i=0;i<muts.length;i++){ var m=muts[i]; if(m.type==='attributes' && attrs.indexOf(m.attributeName)>-1) m.target.removeAttribute(m.attributeName); else if(m.type==='childList') m.addedNodes.forEach(function(n){ if(n.nodeType===1) clean(n); }); } }).observe(document.documentElement,{attributes:true,subtree:true,childList:true,attributeFilter:attrs});
+})();`;
+
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="id" suppressHydrationWarning>
-      <body className={`${plusJakarta.variable} ${poppins.variable}`}>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{__html: extensionAttrStripScript}}
+        />
+      </head>
+      <body
+        className={`${plusJakarta.variable} ${poppins.variable}`}
+        suppressHydrationWarning
+      >
         <ThemeProvider>
           <SplashScreen />
           <ScrollProgress />
           {children}
           <BackToTop />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
