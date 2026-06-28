@@ -62,7 +62,8 @@ export interface Testimonial {
   name: string;
   role: string;
   content: string;
-  avatar?: string;
+  /** Google Drive File ID foto testimoni (opsional) */
+  driveId?: string;
 }
 
 export interface FAQ {
