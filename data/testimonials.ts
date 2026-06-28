@@ -7,6 +7,7 @@ export const testimonials: Testimonial[] = [
     role: "Kepala Desa [Nama Desa]",
     content:
       "Kehadiran KKN JamaLights 206 memberikan semangat baru bagi desa kami. Program-program mereka sangat relevan dengan kebutuhan masyarakat dan dilaksanakan dengan penuh dedikasi.",
+    avatar: "/images/testimonials/placeholder.jpg",
   },
   {
     id: "2",
@@ -14,6 +15,7 @@ export const testimonials: Testimonial[] = [
     role: "Dosen Pembimbing Lapangan",
     content:
       "KKN kelompok 206 menunjukkan kematangan dalam perencanaan dan implementasi program. Mereka mampu beradaptasi dengan baik dan memberikan dampak yang terukur bagi masyarakat.",
+    avatar: "/images/testimonials/placeholder.jpg",
   },
   {
     id: "3",
@@ -21,6 +23,7 @@ export const testimonials: Testimonial[] = [
     role: "Warga Desa [Nama Desa]",
     content:
       "Anak-anak muda dari KKN ini sangat ramah dan membantu. Program bimbel gratis dan pelatihan digital sangat bermanfaat untuk anak-anak dan ibu-ibu di sini.",
+    avatar: "/images/testimonials/placeholder.jpg",
   },
   {
     id: "4",
@@ -28,5 +31,6 @@ export const testimonials: Testimonial[] = [
     role: "Anggota KKN JamaLights 206",
     content:
       "Pengalaman KKN di desa ini benar-benar membuka wawasan. Kami belajar banyak dari masyarakat, dan semoga kontribusi kami bisa terus dirasakan meskipun KKN sudah selesai.",
+    avatar: "/images/testimonials/placeholder.jpg",
   },
 ];
