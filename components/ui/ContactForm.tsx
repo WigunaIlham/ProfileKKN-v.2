@@ -1,6 +1,11 @@
 "use client";
 
-import {useState, type FormEvent, type ChangeEvent, type FocusEvent} from "react";
+import {
+  useState,
+  type FormEvent,
+  type ChangeEvent,
+  type FocusEvent,
+} from "react";
 import {Send, Loader2} from "lucide-react";
 import {toast} from "sonner";
 import {SITE_CONFIG} from "@/constants";
@@ -49,7 +54,9 @@ export function ContactForm() {
     setErrors((prev) => ({...prev, [name]: err}));
   }
 
-  function handleMessageChange(e: ChangeEvent<HTMLTextAreaElement>) {
+  function handleMessageChange(
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) {
     setMessageLen(e.target.value.length);
     if (errors.message) {
       const err = validateField("message", e.target.value);
@@ -199,11 +206,7 @@ export function ContactForm() {
         />
       </div>
 
-      <Field
-        label="Subjek"
-        name="subject"
-        autoComplete="off"
-      />
+      <Field label="Subjek" name="subject" autoComplete="off" />
 
       <Field
         label="Pesan"
@@ -246,8 +249,10 @@ export function ContactForm() {
   );
 }
 
-interface FieldProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "as"> {
+interface FieldProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "as"
+> {
   label: string;
   name: string;
   as?: "input" | "textarea";
@@ -255,9 +260,7 @@ interface FieldProps
   error?: string;
   helper?: React.ReactNode;
   onBlur?: (e: FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  onChange?: (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => void;
+  onChange?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
 function Field({
@@ -273,9 +276,7 @@ function Field({
 }: FieldProps) {
   const baseClass =
     "w-full px-3.5 py-2.5 rounded-xl text-sm bg-transparent border outline-none transition-colors duration-200";
-  const borderColor = error
-    ? "#dc2626"
-    : "var(--border)";
+  const borderColor = error ? "#dc2626" : "var(--border)";
   const inputStyle = {
     borderColor,
     color: "var(--text-primary)",
