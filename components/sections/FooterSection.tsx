@@ -44,7 +44,10 @@ export function FooterSection() {
     <footer
       className="relative overflow-hidden"
       role="contentinfo"
-      style={{background: "#0F1A10"}}
+      style={{
+        background:
+          "linear-gradient(180deg, #1A130D 0%, #221810 60%, #14100A 100%)",
+      }}
     >
       {/* Top accent gradient hairline */}
       <div

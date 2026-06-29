@@ -32,14 +32,23 @@ const divisions: OrgNode[] = [
   {role: "Humas", icon: Users, color: "bg-rose-500"},
 ];
 
-function Card({node, big = false}: {node: OrgNode; big?: boolean}) {
+function Card({
+  node,
+  big = false,
+  pulseDelay = 0,
+}: {
+  node: OrgNode;
+  big?: boolean;
+  pulseDelay?: number;
+}) {
   return (
     <div
-      className={`relative flex flex-col items-center justify-center gap-2 rounded-2xl text-white transition-all duration-300 hover:-translate-y-0.5 ${node.color} ${
+      className={`card-wave relative flex flex-col items-center justify-center gap-2 rounded-2xl text-white transition-all duration-300 hover:-translate-y-0.5 ${node.color} ${
         big
           ? "p-6 min-w-[170px] shadow-[0_8px_24px_rgba(45,74,45,0.18)] hover:shadow-[0_14px_32px_rgba(45,74,45,0.25)]"
           : "p-4 min-w-[110px] shadow-[0_4px_14px_rgba(45,74,45,0.12)] hover:shadow-[0_10px_24px_rgba(45,74,45,0.20)]"
       }`}
+      style={{animationDelay: `${pulseDelay}s`}}
     >
       <node.icon
         className={big ? "w-8 h-8" : "w-5 h-5"}
@@ -70,16 +79,23 @@ const DESKTOP_PATH = [
   "M 87.5 71 L 87.5 79", // bar-2 → Humas
 ].join(" ");
 
-// Mobile layout: 3-col Sek/Ben + 2-col 2×2 divisions.
+// Mobile layout: 3-col Sek/Ben + 2×2 divisions grid (PDD/Acara top, Logistik/Humas bottom).
 const MOBILE_PATH = [
-  "M 50 20 L 50 27",
-  "M 16.67 27 L 83.33 27",
-  "M 16.67 27 L 16.67 33",
-  "M 83.33 27 L 83.33 33",
-  "M 50 27 L 50 57",
-  "M 25 57 L 75 57",
-  "M 25 57 L 25 63",
-  "M 75 57 L 75 63",
+  // Ketua → H-bar 1
+  "M 50 19 L 50 25",
+  "M 16.67 25 L 83.33 25", // h-bar 1
+  "M 16.67 25 L 16.67 32", // V → Sek
+  "M 83.33 25 L 83.33 32", // V → Ben
+  // Center V continues from h-bar 1 down to h-bar 2 (div row 1)
+  "M 50 25 L 50 56",
+  "M 25 56 L 75 56", // h-bar 2
+  "M 25 56 L 25 62", // V → PDD (top-left)
+  "M 75 56 L 75 62", // V → Acara (top-right)
+  // Center V continues down between row-1 cards to h-bar 3 (div row 2)
+  "M 50 56 L 50 80",
+  "M 25 80 L 75 80", // h-bar 3
+  "M 25 80 L 25 86", // V → Logistik (bottom-left)
+  "M 75 80 L 75 86", // V → Humas (bottom-right)
 ].join(" ");
 
 export function OrgStructureSection() {
@@ -141,7 +157,7 @@ export function OrgStructureSection() {
           <div className="relative flex flex-col items-center">
             {/* L0: Ketua */}
             <motion.div variants={fadeUp} className="mb-14">
-              <Card node={ketua} big />
+              <Card node={ketua} big pulseDelay={0} />
             </motion.div>
 
             {/* L1: Sekretaris — Bendahara (3-col grid, middle empty for passthrough) */}
@@ -150,22 +166,22 @@ export function OrgStructureSection() {
               className="grid grid-cols-3 items-center w-full mb-14"
             >
               <div className="flex justify-center">
-                <Card node={officials[0]} />
+                <Card node={officials[0]} pulseDelay={0.4} />
               </div>
               <div aria-hidden="true" />
               <div className="flex justify-center">
-                <Card node={officials[1]} />
+                <Card node={officials[1]} pulseDelay={0.8} />
               </div>
             </motion.div>
 
-            {/* L2: 4 divisions */}
+            {/* L2: 4 divisions — wider vertical gap on mobile so row 2 sits lower */}
             <motion.div
               variants={fadeUp}
-              className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full"
+              className="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-14 sm:gap-y-4 w-full"
             >
-              {divisions.map((node) => (
+              {divisions.map((node, i) => (
                 <div key={node.role} className="flex justify-center">
-                  <Card node={node} />
+                  <Card node={node} pulseDelay={1.2 + i * 0.3} />
                 </div>
               ))}
             </motion.div>

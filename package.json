@@ -28,7 +28,8 @@
     "react-countup": "^6.5.3",
     "embla-carousel-react": "^8.6.0",
     "embla-carousel-autoplay": "^8.6.0",
-    "@vercel/analytics": "^1.4.1"
+    "@vercel/analytics": "^1.4.1",
+    "sonner": "^1.7.4"
   },
   "pnpm": {
     "onlyBuiltDependencies": ["sharp", "unrs-resolver"]

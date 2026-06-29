@@ -22,6 +22,15 @@ export const SITE_CONFIG = {
   // Koordinat Desa Jamali, Mande, Cianjur (approx)
   mapLat: -6.9321,
   mapLng: 107.1234,
+  /**
+   * Foto background hero section.
+   * Placeholder: picsum (random landscape, seed konsisten supaya tidak ganti tiap refresh).
+   *
+   * Cara ganti dengan foto KKN beneran:
+   * 1. Simpan foto landscape (recommend 1920x1080) di `public/images/hero/team.jpg`
+   * 2. Ganti baris di bawah jadi:  heroImage: "/images/hero/team.jpg"
+   */
+  heroImage: "https://picsum.photos/seed/kkn-jamali-team/1920/1080",
   og: {
     title: "KKN JamaLights 206 — Desa Jamali, Cianjur",
     description:

@@ -1,10 +1,13 @@
 import type {Metadata, Viewport} from "next";
 import {Plus_Jakarta_Sans, Poppins} from "next/font/google";
 import {Analytics} from "@vercel/analytics/next";
+import {Toaster} from "sonner";
 import {ThemeProvider} from "@/components/providers/ThemeProvider";
 import {SplashScreen} from "@/components/ui/SplashScreen";
 import {ScrollProgress} from "@/components/ui/ScrollProgress";
 import {BackToTop} from "@/components/ui/BackToTop";
+import {MusicPlayer} from "@/components/ui/MusicPlayer";
+import {MobileBottomBar} from "@/components/ui/MobileBottomBar";
 import {SITE_CONFIG} from "@/constants";
 import "./globals.css";
 
@@ -92,12 +95,40 @@ const extensionAttrStripScript = `(function(){
   new MutationObserver(function(muts){ for (var i=0;i<muts.length;i++){ var m=muts[i]; if(m.type==='attributes' && attrs.indexOf(m.attributeName)>-1) m.target.removeAttribute(m.attributeName); else if(m.type==='childList') m.addedNodes.forEach(function(n){ if(n.nodeType===1) clean(n); }); } }).observe(document.documentElement,{attributes:true,subtree:true,childList:true,attributeFilter:attrs});
 })();`;
 
+// JSON-LD structured data for SEO rich snippets on Google.
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: SITE_CONFIG.name,
+  alternateName: "JamaLights 206",
+  url: SITE_CONFIG.url,
+  logo: `${SITE_CONFIG.url}/icons/icon-512x512.png`,
+  description: SITE_CONFIG.description,
+  email: SITE_CONFIG.email,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: SITE_CONFIG.village,
+    addressLocality: SITE_CONFIG.subdistrict,
+    addressRegion: SITE_CONFIG.province,
+    addressCountry: "ID",
+  },
+  parentOrganization: {
+    "@type": "EducationalOrganization",
+    name: SITE_CONFIG.university,
+  },
+  sameAs: [SITE_CONFIG.instagram],
+};
+
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="id" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{__html: extensionAttrStripScript}}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{__html: JSON.stringify(organizationSchema)}}
         />
       </head>
       <body
@@ -109,7 +140,19 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
           <ScrollProgress />
           {children}
           <BackToTop />
+          <MusicPlayer />
+          <MobileBottomBar />
         </ThemeProvider>
+        <Toaster
+          position="top-right"
+          richColors
+          closeButton
+          toastOptions={{
+            style: {
+              fontFamily: "var(--font-poppins), sans-serif",
+            },
+          }}
+        />
         <Analytics />
       </body>
     </html>

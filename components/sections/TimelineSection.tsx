@@ -44,10 +44,10 @@ export function TimelineSection() {
           viewport={{once: true, margin: "-60px"}}
           className="relative max-w-3xl mx-auto"
         >
-          {/* Vertical line — gradient from full color top to faded bottom */}
+          {/* Vertical line — left on mobile, center on desktop */}
           <div
             aria-hidden="true"
-            className="absolute left-1/2 -translate-x-px top-2 bottom-2 w-px hidden sm:block"
+            className="absolute left-4 sm:left-1/2 -translate-x-px top-2 bottom-2 w-px"
             style={{
               background:
                 "linear-gradient(180deg, rgba(74,124,89,0.6) 0%, rgba(74,124,89,0.3) 60%, rgba(74,124,89,0.05) 100%)",
@@ -63,7 +63,7 @@ export function TimelineSection() {
                 <motion.div
                   key={event.id}
                   variants={isLeft ? fadeLeft : fadeRight}
-                  className={`relative flex items-center gap-4 sm:gap-8 ${isLeft ? "sm:flex-row" : "sm:flex-row-reverse"}`}
+                  className={`relative flex items-center gap-4 sm:gap-8 pl-10 sm:pl-0 ${isLeft ? "sm:flex-row" : "sm:flex-row-reverse"}`}
                 >
                   {/* Card */}
                   <div className="flex-1 p-5 rounded-2xl card-earthy card-hover">
@@ -101,10 +101,10 @@ export function TimelineSection() {
                     </div>
                   </div>
 
-                  {/* Center dot — desktop */}
+                  {/* Dot — left edge on mobile, center on desktop */}
                   <div
                     aria-hidden="true"
-                    className="hidden sm:flex w-3 h-3 rounded-full absolute left-1/2 -translate-x-1/2 z-10"
+                    className="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full z-10"
                     style={{
                       background: "var(--primary)",
                       boxShadow:

@@ -40,42 +40,32 @@ export function FAQSection() {
               <motion.div
                 key={faq.id}
                 variants={fadeUp}
-                className="rounded-2xl border overflow-hidden transition-all duration-300"
-                style={{
-                  background: "var(--bg-card)",
-                  borderColor: isOpen
-                    ? "rgba(74,124,89,0.4)"
-                    : "var(--border)",
-                  boxShadow: isOpen
-                    ? "0 4px 20px rgba(74,124,89,0.10)"
-                    : "0 1px 2px rgba(45,74,45,0.03)",
-                }}
+                data-state={isOpen ? "open" : "closed"}
+                className="group/faq rounded-2xl border overflow-hidden transition-all duration-300 bg-[var(--bg-card)]
+                  border-[var(--border)] shadow-[0_1px_2px_rgba(45,74,45,0.03)]
+                  hover:-translate-y-0.5 hover:border-[rgba(74,124,89,0.30)] hover:shadow-[0_6px_20px_rgba(74,124,89,0.10)]
+                  data-[state=open]:border-[rgba(74,124,89,0.40)] data-[state=open]:shadow-[0_6px_24px_rgba(74,124,89,0.12)] data-[state=open]:hover:translate-y-0"
               >
                 <button
                   onClick={() => setOpenId(isOpen ? null : faq.id)}
                   aria-expanded={isOpen}
-                  className="w-full flex items-center justify-between gap-4 p-5 text-left group"
+                  className="w-full flex items-center justify-between gap-4 p-5 text-left"
                 >
                   <span
-                    className="font-heading font-semibold text-sm sm:text-base tracking-tight transition-colors duration-200"
-                    style={{
-                      color: isOpen
-                        ? "var(--primary)"
-                        : "var(--text-primary)",
-                    }}
+                    className="font-heading font-semibold text-sm sm:text-base tracking-tight transition-colors duration-200
+                      text-[var(--text-primary)]
+                      group-hover/faq:text-[var(--primary)]
+                      group-data-[state=open]/faq:text-[var(--primary)]"
                   >
                     {faq.question}
                   </span>
                   <motion.span
                     animate={{rotate: isOpen ? 45 : 0}}
                     transition={{duration: 0.25, ease: [0.22, 1, 0.36, 1]}}
-                    className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-colors duration-200"
-                    style={{
-                      background: isOpen
-                        ? "rgba(74,124,89,0.12)"
-                        : "rgba(74,124,89,0.06)",
-                      color: "var(--primary)",
-                    }}
+                    className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200
+                      bg-[rgba(74,124,89,0.06)] text-[var(--primary)]
+                      group-hover/faq:bg-[rgba(74,124,89,0.14)] group-hover/faq:scale-110
+                      group-data-[state=open]/faq:bg-[rgba(74,124,89,0.14)]"
                   >
                     <Plus className="w-3.5 h-3.5" />
                   </motion.span>

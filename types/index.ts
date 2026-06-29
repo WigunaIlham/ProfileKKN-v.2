@@ -3,7 +3,10 @@ export interface TeamMember {
   name: string;
   studyProgram: string;
   role: string;
+  /** Ketua keseluruhan KKN — hanya 1 orang. */
   isChairperson?: boolean;
+  /** Ketua divisi (PDD/Acara/HumLog) — hanya 1 orang per divisi. */
+  isLead?: boolean;
   /** Google Drive File ID. Kosongkan ("") jika belum ada foto → fallback avatar. */
   driveId?: string;
   /** @deprecated Gunakan driveId. Field ini masih dibaca sebagai fallback. */
@@ -19,6 +22,14 @@ export interface WorkProgram {
   target: string;
   division: string;
   icon: string;
+  /** Penjelasan panjang yang ditampilkan saat card di-klik (modal detail). */
+  details?: string;
+  /** Daftar aktivitas/kegiatan dalam program — bullet list di modal. */
+  activities?: string[];
+  /** Jadwal pelaksanaan (opsional, tampil di modal). */
+  schedule?: string;
+  /** Lokasi spesifik (opsional, tampil di modal). */
+  location?: string;
 }
 
 export interface GalleryItem {
@@ -55,6 +66,12 @@ export interface VillagePotential {
   description: string;
   icon: string;
   color: string;
+  /** Penjelasan panjang untuk modal detail (klik card). */
+  details?: string;
+  /** Daftar highlight/keunggulan — bullet list di modal. */
+  highlights?: string[];
+  /** Lokasi spesifik di desa (opsional, tampil di modal). */
+  location?: string;
 }
 
 export interface Testimonial {
@@ -65,6 +82,10 @@ export interface Testimonial {
   avatar: string;
   /** Google Drive File ID foto testimoni (opsional) */
   driveId?: string;
+  /** Lokasi/asal testimoni (opsional, e.g. "Dusun Cikondang, RT 02") */
+  location?: string;
+  /** Tanggal testimoni (opsional, e.g. "Februari 2026") */
+  date?: string;
 }
 
 export interface FAQ {

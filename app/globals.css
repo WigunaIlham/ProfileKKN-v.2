@@ -4,38 +4,53 @@
 
 @layer base {
   :root {
-    /* Earthy light mode */
-    --bg: #f9f6f0;
-    --bg-secondary: #f5f0e8;
-    --bg-card: #ffffff;
-    --border: #ddd5c0;
-    --text-primary: #1c3320;
-    --text-secondary: #4a5c4a;
-    --text-muted: #7a8c7a;
+    /* Light mode — Sunrise (warm dawn cream + soft peach undertone) */
+    --bg: #fbf6ea;
+    --bg-secondary: #f3e8d1;
+    --bg-card: #fdf8ec;
+    --border: #e8d6b3;
+    --text-primary: #1e3322;
+    --text-secondary: #4a5c48;
+    --text-muted: #8a8473;
 
     --primary: #4a7c59;
     --primary-dark: #2d4a2d;
     --primary-light: #7aab8a;
-    --gold: #c4932a;
-    --gold-light: #d4a843;
-    --cream: #f5f0e8;
+    --gold: #d4943e;
+    --gold-light: #efb76a;
+    --cream: #f3e8d1;
+
+    /* Sunrise ambient body glow — extremely subtle warm light from top */
+    --page-glow: radial-gradient(
+      120% 60% at 50% -10%,
+      rgba(247, 184, 110, 0.18) 0%,
+      rgba(247, 184, 110, 0) 60%
+    );
   }
 
   .dark {
-    --bg: #0f1a10;
-    --bg-secondary: #162018;
-    --bg-card: #1c2e1e;
-    --border: #2d4a2d;
-    --text-primary: #f0ede5;
-    --text-secondary: #c4d4c4;
-    --text-muted: #7a9a7a;
+    /* Dark mode — Sunset (deep warm dusk + amber undertone) */
+    --bg: #18120c;
+    --bg-secondary: #221a12;
+    --bg-card: #2a201a;
+    --border: #3d2f22;
+    --text-primary: #f2e8d5;
+    --text-secondary: #c5bca8;
+    --text-muted: #8a7e6b;
 
-    --primary: #5e9474;
+    --primary: #6a9c7e;
     --primary-dark: #4a7c59;
-    --primary-light: #7aab8a;
-    --gold: #d4a843;
-    --gold-light: #efc95a;
-    --cream: #1c2e1e;
+    --primary-light: #8ab89a;
+    --gold: #e8a858;
+    --gold-light: #f4c470;
+    --cream: #2a201a;
+
+    /* Sunset ambient body glow — warm orange wash at horizon */
+    --page-glow: radial-gradient(
+      120% 60% at 50% 100%,
+      rgba(232, 168, 88, 0.10) 0%,
+      rgba(232, 168, 88, 0) 65%
+    );
   }
 }
 
@@ -50,8 +65,23 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  /* Respect users who request reduced motion (WCAG 2.3.3) */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
   body {
     background-color: var(--bg);
+    background-image: var(--page-glow);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     color: var(--text-primary);
     font-family: var(--font-poppins), sans-serif;
     overflow-x: hidden;
@@ -195,6 +225,48 @@
   .eyebrow:hover::before {
     width: 2.5rem;
     opacity: 0.7;
+  }
+
+  /* ── Card pulse wave (used in OrgStructure) ── */
+  @keyframes card-wave {
+    0% {
+      box-shadow:
+        0 0 0 0 rgba(74, 124, 89, 0.28),
+        0 0 0 0 rgba(74, 124, 89, 0.18);
+    }
+    100% {
+      box-shadow:
+        0 0 0 10px rgba(74, 124, 89, 0),
+        0 0 0 22px rgba(74, 124, 89, 0);
+    }
+  }
+
+  .card-wave {
+    animation: card-wave 3s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+
+  /* ── Music player volume slider ── */
+  .player-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--primary);
+    border: 2px solid var(--bg-card);
+    box-shadow: 0 1px 3px rgba(45, 74, 45, 0.25);
+    cursor: pointer;
+  }
+
+  .player-slider::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--primary);
+    border: 2px solid var(--bg-card);
+    box-shadow: 0 1px 3px rgba(45, 74, 45, 0.25);
+    cursor: pointer;
+    border: none;
   }
 
   /* ── Nav link with animated underline ── */

@@ -1,33 +1,15 @@
 "use client";
 
-import {useState, useEffect} from "react";
 import {motion} from "framer-motion";
 import Link from "next/link";
-import {Instagram, ExternalLink} from "lucide-react";
+import Image from "next/image";
+import {Instagram, ExternalLink, Heart} from "lucide-react";
 import {SectionHeader} from "@/components/ui/SectionHeader";
 import {SITE_CONFIG} from "@/constants";
 import {staggerContainer, fadeUp} from "@/lib/motion";
-
-interface Post {
-  id: string;
-  src: string;
-  alt: string;
-  likes: number;
-}
+import {instagramPosts} from "@/data/instagram";
 
 export function InstagramSection() {
-  const [feed, setFeed] = useState<Post[]>([]);
-
-  useEffect(() => {
-    const generatedFeed = Array.from({length: 6}, (_, i) => ({
-      id: String(i + 1),
-      src: `https://picsum.photos/seed/insta${i + 1}/400/400`,
-      alt: `Postingan Instagram ${i + 1}`,
-      likes: Math.floor(Math.random() * 200) + 50,
-    }));
-    setFeed(generatedFeed);
-  }, []);
-
   return (
     <section
       id="instagram"
@@ -39,7 +21,7 @@ export function InstagramSection() {
         <SectionHeader
           tag="Instagram"
           title="Follow"
-          titleHighlight="@jamalights206"
+          titleHighlight="@kkn.jamalights206"
           subtitle="Ikuti perjalanan kami di Instagram untuk update terbaru seputar program dan kegiatan KKN."
         />
 
@@ -50,34 +32,52 @@ export function InstagramSection() {
           viewport={{once: true}}
           className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-10"
         >
-          {feed.map((post) => (
-            <motion.div
-              key={post.id}
-              variants={fadeUp}
-              className="group relative aspect-square overflow-hidden rounded-2xl"
-              style={{background: "var(--bg-card)"}}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={post.src}
-                alt={post.alt}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                loading="lazy"
-              />
-              <div
-                className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{
-                  background:
-                    "linear-gradient(180deg, rgba(28,51,32,0.20), rgba(28,51,32,0.75))",
-                }}
-              >
-                <div className="text-center text-white">
-                  <Instagram className="w-6 h-6 mx-auto mb-1" />
-                  <p className="text-xs font-semibold">{post.likes} likes</p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+          {instagramPosts.map((post) => {
+            const href = post.url ?? SITE_CONFIG.instagram;
+            return (
+              <motion.div key={post.id} variants={fadeUp}>
+                <Link
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Buka post: ${post.alt}`}
+                  className="group relative block aspect-square overflow-hidden rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
+                  style={{background: "var(--bg-card)"}}
+                >
+                  <Image
+                    src={post.src}
+                    alt={post.alt}
+                    fill
+                    sizes="(min-width: 1024px) 16vw, (min-width: 640px) 33vw, 50vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    unoptimized={post.src.startsWith("http")}
+                  />
+
+                  {/* Hover overlay */}
+                  <div
+                    className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3 text-center"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, rgba(28,51,32,0.20), rgba(28,51,32,0.80))",
+                    }}
+                  >
+                    <Instagram className="w-6 h-6 text-white mb-1.5" />
+                    {post.caption && (
+                      <p className="text-[11px] font-medium text-white leading-snug line-clamp-2 mb-1.5">
+                        {post.caption}
+                      </p>
+                    )}
+                    {typeof post.likes === "number" && (
+                      <p className="text-[10px] font-semibold text-white/90 flex items-center gap-1">
+                        <Heart className="w-2.5 h-2.5 fill-current" />
+                        {post.likes}
+                      </p>
+                    )}
+                  </div>
+                </Link>
+              </motion.div>
+            );
+          })}
         </motion.div>
 
         <div className="text-center">

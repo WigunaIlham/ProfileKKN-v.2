@@ -1,17 +1,20 @@
 "use client";
 
-import {useState, useMemo} from "react";
+import {useState, useMemo, useEffect} from "react";
 import {motion, AnimatePresence} from "framer-motion";
 import Lightbox from "yet-another-react-lightbox";
 import Captions from "yet-another-react-lightbox/plugins/captions";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/captions.css";
+import {ChevronDown, ChevronUp} from "lucide-react";
 import {SectionHeader} from "@/components/ui/SectionHeader";
 import {DriveImage} from "@/components/ui/DriveImage";
 import {galleryItems, filterGallery} from "@/data/gallery";
 import {buildDriveUrl} from "@/lib/drive";
 import {staggerContainer, fadeUp} from "@/lib/motion";
 import type {GalleryItem} from "@/types";
+
+const INITIAL_LIMIT = 15;
 
 const CATEGORIES = [
   {key: "all", label: "Semua"},
@@ -94,12 +97,25 @@ function GalleryCard({
 export function GallerySection() {
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const [lightboxIndex, setLightboxIndex] = useState(-1);
+  const [showAll, setShowAll] = useState(false);
 
   const filtered = useMemo(
     () => filterGallery(galleryItems, activeCategory),
     [activeCategory],
   );
 
+  // Reset expanded state whenever the user switches category
+  useEffect(() => {
+    setShowAll(false);
+  }, [activeCategory]);
+
+  const hasMore = filtered.length > INITIAL_LIMIT;
+  const visibleItems = useMemo(
+    () => (showAll ? filtered : filtered.slice(0, INITIAL_LIMIT)),
+    [filtered, showAll],
+  );
+
+  // Lightbox tetap pakai full list — user bisa swipe ke semua foto walau grid dibatasi
   const slides = useMemo(
     () =>
       filtered.map((item) => ({
@@ -160,7 +176,7 @@ export function GallerySection() {
         {/* Masonry grid */}
         <AnimatePresence mode="wait">
           <motion.div
-            key={activeCategory}
+            key={`${activeCategory}-${showAll ? "all" : "lim"}`}
             variants={staggerContainer}
             initial="hidden"
             animate="visible"
@@ -179,7 +195,7 @@ export function GallerySection() {
                 </p>
               </motion.div>
             ) : (
-              filtered.map((item, index) => (
+              visibleItems.map((item, index) => (
                 <div key={item.id} className="break-inside-avoid mb-3 sm:mb-4">
                   <GalleryCard
                     item={item}
@@ -191,6 +207,38 @@ export function GallerySection() {
             )}
           </motion.div>
         </AnimatePresence>
+
+        {/* "Selengkapnya" toggle — muncul hanya kalau filtered > INITIAL_LIMIT */}
+        {hasMore && (
+          <div className="flex flex-col items-center gap-3 mt-10">
+            <button
+              onClick={() => setShowAll((v) => !v)}
+              aria-expanded={showAll}
+              className="btn-secondary group"
+            >
+              {showAll ? (
+                <>
+                  <ChevronUp className="w-4 h-4 transition-transform duration-200 group-hover:-translate-y-0.5" />
+                  Tampilkan Lebih Sedikit
+                </>
+              ) : (
+                <>
+                  Lihat Selengkapnya
+                  <ChevronDown className="w-4 h-4 transition-transform duration-200 group-hover:translate-y-0.5" />
+                </>
+              )}
+            </button>
+            <p
+              className="text-xs"
+              style={{color: "var(--text-muted)"}}
+              aria-live="polite"
+            >
+              {showAll
+                ? `Menampilkan semua ${filtered.length} foto`
+                : `Menampilkan ${INITIAL_LIMIT} dari ${filtered.length} foto`}
+            </p>
+          </div>
+        )}
 
         {/* Dev warning if gallery empty */}
         {galleryItems.every((g) => !g.driveId) && (
